@@ -9,14 +9,13 @@ import java.rmi.RemoteException;
 import java.util.Scanner;
 
 public class Prisoner {
-    private static String hostname = "localhost";
-    private static int port = 8080;
-    private static String serviceName = "ProsecutorService";
-
     public static void main(String[] args) throws RemoteException, NotBoundException, MalformedURLException {
         System.setProperty("java.security.policy", "rmiecho.policy");
 
         System.out.println("Attempting lookup...");
+        String hostname = "localhost";
+        int port = 8080;
+        String serviceName = "ProsecutorService";
         ProsecutorInterface service = (ProsecutorInterface) Naming.lookup("rmi://" + hostname + ":" + port + "/" + serviceName);
         System.out.println("Lookup successful.");
         System.out.println(service.sayHello("hello"));
