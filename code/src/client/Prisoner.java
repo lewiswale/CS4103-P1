@@ -22,20 +22,33 @@ public class Prisoner {
         System.out.println(service.sayHello("hello"));
 
         Scanner input = new Scanner(System.in);
-        System.out.println("Enter your choice (C or B):");
-        char choice = input.next().charAt(0);
+        int pID = -1;
+        while (pID != 0 && pID != 1) {
+            System.out.println("Enter prisoner ID (1 or 2):");
+            pID = input.nextInt()-1;
+            if (!service.checkID(pID)) {
+                System.out.println("Prisoner ID already in use, please try again.");
+                pID = -1;
+            }
+        }
+
+        char choice = '\0';
 
         while (choice != 'C' && choice != 'B') {
             System.out.println("Enter your choice (C or B):");
             choice = input.next().charAt(0);
         }
 
-        String reduction = service.processPrisoner(choice);
+        String reduction = service.processPrisoner(pID, choice);
 
-        if (reduction.equals("-1")) {
-            System.out.println("somethings gone wrong...");
-        } else {
-            System.out.println("You shall receive " + reduction + " years reduction.");
+        if (reduction == null) {
+            while (reduction == null) {
+                reduction = service.processPrisoner(pID, choice);
+            }
         }
+
+        System.out.println("You shall receive " + reduction + " years reduction.");
+        service.clearChoice(pID);
+
     }
 }
