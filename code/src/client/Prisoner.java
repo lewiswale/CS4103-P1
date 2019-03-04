@@ -16,16 +16,16 @@ public class Prisoner {
         String hostname = "localhost";
         int port = 8080;
         String serviceName = "ProsecutorService";
-        ProsecutorInterface service = (ProsecutorInterface) Naming.lookup("rmi://" + hostname + ":" + port + "/" + serviceName);
+        ProsecutorInterface service = (ProsecutorInterface) Naming.lookup("rmi://" + hostname + ":" + port + "/" + serviceName);    //Looking up register
         System.out.println("Lookup successful.");
-        System.out.println(service.sayHello("hello"));
+        System.out.println(service.sayHello("hello"));  //Acknowledging connection
 
         Scanner input = new Scanner(System.in);
         int pID = -1;
         while (pID != 0 && pID != 1) {
             System.out.println("Enter prisoner ID (1 or 2):");
             pID = input.nextInt()-1;
-            if (!service.checkID(pID)) {
+            if (!service.checkID(pID)) {    //Checking given prisoner ID is available
                 System.out.println("Prisoner ID already in use, please try again.");
                 pID = -1;
             }
@@ -42,7 +42,7 @@ public class Prisoner {
 
         if (reduction == null) {
             while (reduction == null) {
-                reduction = service.processPrisoner(pID, choice);
+                reduction = service.processPrisoner(pID, choice);       //Loops until reduction is received
             }
         }
 
